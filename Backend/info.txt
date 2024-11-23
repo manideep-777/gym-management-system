@@ -1,0 +1,5 @@
+mongoose information:-
+    userCluster --> 
+        username:- manideep
+        password:- mani1234
+        mongo_url:- mongodb+srv://manideep:<db_password>@usercluster.eics8.  mongodb.net/?retryWrites=true&w=majority&appName=userCluster
