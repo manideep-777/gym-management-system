@@ -8,18 +8,30 @@ const mongoose = require("mongoose");
 
 const app = express();
 const MONGO_URL = process.env.MONGO_URL;
+const userRouter = require("./routes/userRouter");
 
-mongoose
-    .connect(MONGO_URL)
-    .then(() => {console.log("connected to mongoose url")})
-    .catch((err) => { console.error("Failed to connected to mongo ", err) })
 
 app.use(cors());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+
+// user routers
+app.use("/users",userRouter);
+
+main().then(() => {
+    console.log("connected to mongoose url")
+}).catch((err) => {
+    console.error("Failed to connected to mongo ", err)
+})
+
+async function main() {
+    await mongoose.connect(MONGO_URL);
+}
+
 
 app.get("/users", (req, res) => {
     res.send("user");
 })
+
 
 app.get('/', function (req, res) {
     res.send('Hello World');
