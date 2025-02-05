@@ -1,7 +1,30 @@
-import React from "react";
+import { useState } from "react";
 import { TEInput, TERipple } from "tw-elements-react";
+import { Link } from "react-router-dom";
 
 export default function Example() {
+
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () =>{
+    // console.log(username,email,password);
+    let res = await fetch('http://localhost:8080/users/register',{
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+     body:JSON.stringify({
+        'username': username,
+        'email': email,
+        'password': password, 
+      }),
+    });
+    res = await res.json();
+    console.log(res.message);
+  }
+
   return (
     <div className=" mx-18 md:mx-28 ">
       <div className="flex h-screen min-w-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
@@ -30,13 +53,15 @@ export default function Example() {
                       type="text"
                       label="Username"
                       className="mb-4"
+                      onChange = {(e) => {setUsername(e.target.value)}}
                     />
 
-                    {/* Password input */}
+                    {/* Email input */}
                     <TEInput
                       type="email"
                       label="Email"
                       className="mb-4"
+                      onChange = {(e) => {setEmail(e.target.value)}}
                     />
 
                     {/* Password input */}
@@ -44,6 +69,7 @@ export default function Example() {
                       type="password"
                       label="Password"
                       className="mb-4"
+                      onChange = {(e) => {setPassword(e.target.value)}}
                     />
 
                     {/* Submit button */}
@@ -56,6 +82,7 @@ export default function Example() {
                             background:
                               "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
                           }}
+                          onClick = {handleRegister}
                         >
                           Sign up
                         </button>
@@ -69,12 +96,14 @@ export default function Example() {
                     <div className="flex items-center justify-between pb-6">
                       <p className="mb-0 mr-2">Have an account?</p>
                       <TERipple rippleColor="light">
+                        <Link to="/users/login">
                         <button
                           type="button"
                           className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                        >
+                          >
                           Login
                         </button>
+                        </Link>
                       </TERipple>
                     </div>
                   </form>

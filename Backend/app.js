@@ -5,6 +5,8 @@ if (process.env.NODE_ENV != "production") {
 const express = require('express')
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
 
 const app = express();
 const MONGO_URL = process.env.MONGO_URL;
@@ -13,6 +15,8 @@ const userRouter = require("./routes/userRouter");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // user routers
 app.use("/users",userRouter);
@@ -28,9 +32,9 @@ async function main() {
 }
 
 
-app.get("/users", (req, res) => {
-    res.send("user");
-})
+// app.get("/users", (req, res) => {
+//     res.send("user");
+// })
 
 
 app.get('/', function (req, res) {

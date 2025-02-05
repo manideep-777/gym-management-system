@@ -6,7 +6,7 @@ const User = require("../models/user_model.js");
 const register = async (req, res) => {
     try {
         let { username, email, password } = req.body;
-
+       
         if (!username || !email || !password){
             return res.status(StatusCodes.BAD_REQUEST).json({ message : "send proper data." });
         }
@@ -51,10 +51,11 @@ const login = async (req, res) => {
             let token = crypto.randomBytes(20).toString("hex");
             user.token = token;
             await user.save();
-            return res.status(StatusCodes.OK).json({token:token});
+            return res.status(StatusCodes.OK).json({ token:token, message : "User logged in successfully." });
         }else{
             return res.status(StatusCodes.BAD_REQUEST).json({ message : "Password was wrong." });
         }
+        
     } catch (error) {
         console.error("Error during registration:", error);
         return res.status(StatusCodes.BAD_REQUEST).json({ message: "Internal server error." });
