@@ -65,3 +65,5 @@ dist/
 
 # dotenv environment variables file
 .env
+
+*.txt
