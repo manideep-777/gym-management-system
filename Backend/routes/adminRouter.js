@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { register, login, logout } = require("../controllers/adminController");
+const { register, login, logout, memberData, memberDelete, updateBills, findedMember } = require("../controllers/adminController");
 const passport = require("passport");
 
 const router = Router();
@@ -22,6 +22,15 @@ login
 );
 
 router.get("/logout", logout);
+
+router.get("/memberData", memberData);
+
+router.delete("/memberData/:id", memberDelete);
+
+router.post("/memberData/updateBill/:id",updateBills);
+
+router.post("/memberData/:id",findedMember);
+
   
   
 

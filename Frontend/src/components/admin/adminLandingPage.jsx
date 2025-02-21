@@ -5,6 +5,8 @@ import api from "../axios-utils/baseAxios";
 
 import { AdminContext } from "./adminContext";
 
+import UserMembers from "./user-memders";
+
 const AdminLanding = () => {  
   const { currentAdmin, setCurrentAdmin } = useContext(AdminContext);
 
@@ -43,9 +45,10 @@ const AdminLanding = () => {
         </div>
       </nav>
       <main className="flex flex-col items-center justify-center h-[80vh] text-center px-4">
-        <h2 className="text-3xl font-semibold md:text-4xl">Welcome to FitTrack Admin Dashboard</h2>
+        {/* <h2 className="text-3xl font-semibold md:text-4xl">Welcome to FitTrack Admin Dashboard</h2>
         <p className="text-gray-700 mt-2 text-base md:text-lg">Manage your gym effectively.</p>
-        <p className="text-gray-700 mt-2 text-base md:text-lg">Please sign up or login.</p>
+        <p className="text-gray-700 mt-2 text-base md:text-lg">Please sign up or login.</p> */}
+        <UserMembers />
       </main>
     </div>
   );

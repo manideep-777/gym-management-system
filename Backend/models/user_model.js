@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema,model } = mongoose;
 
+const BillSchema = require("./bill_model")
+
 const userSchema = new Schema({
     username : {
         type : String,
@@ -20,7 +22,8 @@ const userSchema = new Schema({
     },
     token : {
         type : String,
-    }
+    },
+    bills:[BillSchema],
   });
 
 const User = model("User",userSchema);

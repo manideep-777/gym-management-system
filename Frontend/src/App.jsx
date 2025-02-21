@@ -8,6 +8,11 @@ import UserLogin from "./components/users/UserLogin";
 import AdminLanding from './components/admin/adminLandingPage';
 import AdminRegister from "./components/admin/AdminRegister";
 import AdminLogin from "./components/admin/AdminLogin";
+import AddMemberForm from "./components/admin/AddMemberForm";
+import UpdateMemberForm from "./components/admin/UpdateMemberForm";
+import CreateBills from './components/admin/CreateBills';
+import SeperateUserPage from "./components/admin/seperateUserPage"
+
 import { AdminProvider } from './components/admin/adminContext';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -22,6 +27,9 @@ function App() {
           <Route path="/users/login" element={<UserLogin />} />
           <Route path="/users/register" element={<UserRegister />} />
 
+          <Route path="/admin/bill/:id" element={<CreateBills />} />
+          <Route path="/admin/user/:username" element={<SeperateUserPage />} />
+
           <Route path="/admin" element={
             <AdminProvider><AdminLanding /></AdminProvider> 
             } />
@@ -31,7 +39,12 @@ function App() {
           <Route path="/admin/register" element={
              <AdminProvider><AdminRegister /></AdminProvider> 
             } />
-
+            <Route path="/admin/addUser" element={
+             <AdminProvider><AddMemberForm /></AdminProvider> 
+            } />
+            <Route path="/admin/updateUser" element={
+             <AdminProvider><UpdateMemberForm /></AdminProvider> 
+            } />
 
         </Routes>
       </BrowserRouter>

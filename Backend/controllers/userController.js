@@ -5,10 +5,10 @@ const User = require("../models/user_model.js");
 
 const register = async (req, res) => {
     try {
-        let { username, email, password } = req.body;
-       
-        if (!username || !email || !password){
-            return res.status(StatusCodes.BAD_REQUEST).json({ message : "send proper data." });
+        let { username, email, password, membership = false } = req.body;
+
+        if (!username || !email || !password) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: "send proper data." });
         }
 
         let existingUser = await User.findOne({ email: email });
@@ -22,6 +22,7 @@ const register = async (req, res) => {
             username: username,
             email: email,
             password: hashedPassword,
+            membership: membership
         })
         await newUser.save();
         return res.status(StatusCodes.CREATED).json({ message: "user successfully registered." });
@@ -36,26 +37,26 @@ const login = async (req, res) => {
     try {
         let { email, password } = req.body;
 
-        if (!email || !password){
-            return res.status(StatusCodes.BAD_REQUEST).json({ message : "send proper data." });
+        if (!email || !password) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: "send proper data." });
         }
 
         let user = await User.findOne({ email: email });
 
-        if (!user){
-            return res.status(StatusCodes.NOT_FOUND).json({ message : "user not found." });
+        if (!user) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: "user not found." });
         }
 
         let match = await bcrypt.compare(password, user["password"]);
-        if (match){
+        if (match) {
             let token = crypto.randomBytes(20).toString("hex");
             user.token = token;
             await user.save();
-            return res.status(StatusCodes.OK).json({ token:token, message : "User logged in successfully." });
-        }else{
-            return res.status(StatusCodes.BAD_REQUEST).json({ message : "Password was wrong." });
+            return res.status(StatusCodes.OK).json({ token: token, message: "User logged in successfully." });
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: "Password was wrong." });
         }
-        
+
     } catch (error) {
         console.error("Error during registration:", error);
         return res.status(StatusCodes.BAD_REQUEST).json({ message: "Internal server error." });
@@ -63,4 +64,33 @@ const login = async (req, res) => {
 
 }
 
-module.exports = { register , login };
+const updateMember = async (req, res) => {
+    try {
+        let { _id, username, email, password, membership } = req.body;
+
+        let updateFields = { username, email, password, membership };
+
+        // if (password) {
+        //     const salt = await bcrypt.genSalt(10);
+        //     updateFields.password = await bcrypt.hash(password, salt);
+        // }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            _id, 
+            updateFields, 
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: "User updated", user: updatedUser });
+    } catch (error) {
+        console.error("Update Error:", error);
+        res.status(500).json({ message: "Server error", error });
+    }
+};
+
+
+module.exports = { register, login, updateMember };
