@@ -66,6 +66,9 @@ app.use("/users", userRouter);
 // admin routers
 app.use("/admin", adminRouter);
 
+// member routers
+// app.use("/member")
+
 main().then(() => {
     console.log("connected to mongoose url")
 }).catch((err) => {

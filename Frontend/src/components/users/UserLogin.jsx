@@ -3,7 +3,11 @@ import { TEInput, TERipple } from "tw-elements-react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
+import { useNavigate } from "react-router-dom";
+
 export default function Example() {
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +26,11 @@ export default function Example() {
     });
     res = await res.json();
     console.log(res);
+    if(res.user.membership){
+      navigate("/member",{state : res.user})
+    }else{
+      navigate("/")
+    }
   }
 
 
@@ -42,7 +51,7 @@ export default function Example() {
                       alt="logo"
                     />
                     <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                      We are The Lotus Team
+                      We are a Team
                     </h4>
                   </div>
 
@@ -112,13 +121,10 @@ export default function Example() {
               >
                 <div className="px-4 py-6 text-white md:mx-6 md:p-12">
                   <h4 className="mb-6 text-xl font-semibold">
-                    We are more than just a company
+                  Your body can stand almost anything. It’s your mind that you have to convince.
                   </h4>
                   <p className="text-sm">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  
                   </p>
                 </div>
               </div>

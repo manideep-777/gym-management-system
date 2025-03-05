@@ -25,7 +25,7 @@ const register = async (req, res) => {
             membership: membership
         })
         await newUser.save();
-        return res.status(StatusCodes.CREATED).json({ message: "user successfully registered." });
+        return res.status(StatusCodes.CREATED).json({ message: "user successfully registered." },);
     } catch (error) {
         console.error("Error during registration:", error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal server error." });
@@ -52,7 +52,7 @@ const login = async (req, res) => {
             let token = crypto.randomBytes(20).toString("hex");
             user.token = token;
             await user.save();
-            return res.status(StatusCodes.OK).json({ token: token, message: "User logged in successfully." });
+            return res.status(StatusCodes.OK).json({ token: token, message: "User logged in successfully.", user: user });
         } else {
             return res.status(StatusCodes.BAD_REQUEST).json({ message: "Password was wrong." });
         }
